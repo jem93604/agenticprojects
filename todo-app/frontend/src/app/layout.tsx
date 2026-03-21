@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import DarkModeToggle from '@/components/DarkModeToggle'
+import { ToastProvider } from '@/components/ToastProvider'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,12 +29,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
+        <ToastProvider>
         <header className="py-6">
           <div className="app-container">
             <div className="flex items-center justify-between">
                 <div>
-                  <h1 className="text-2xl font-semibold">Todo App</h1>
-                  <p className="text-sm subtitle">A little fancier — created with ❤️</p>
+                  <h1 className="text-2xl font-semibold">TaskFlow</h1>
+                  <p className="text-sm subtitle">Kanban + Eisenhower planning</p>
                 </div>
                 <div>
                   <DarkModeToggle />
@@ -43,8 +45,9 @@ export default function RootLayout({
         </header>
         <main className="app-container flex-1">{children}</main>
         <footer className="app-container py-8 text-center muted text-sm">
-          Made with care — try adding a task ✨
+          Drag cards. Drop decisions. ✨
         </footer>
+        </ToastProvider>
       </body>
     </html>
   );

@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "vercel-build": "cd frontend && npm ci && npm run build",
-    "build": "npm run vercel-build"
+    "build": "npm run vercel-build",
+    "test:backend": "cd backend && PYTHONPATH=. ./venv/bin/python -m pytest"
   }
 }

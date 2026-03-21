@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+.eggs/
+dist/
+build/
+pip-wheel-metadata/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtualenvs
+.venv/
+venv/
+env/
+backend/.venv/
+frontend/.venv/
+
+# Environment files
+.env
+.env.*
+
+# Database files
+*.sqlite
+*.pytest.sqlite
+todos.db
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Mypy / caches
+.mypy_cache/
+.cache/
+
+# Node / frontend
+node_modules/
+.next/
+out/
+dist/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+
+# Logs
+*.log
+
+# Misc
+*.bak
+*.tmp
+*.swp

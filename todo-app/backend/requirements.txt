@@ -5,6 +5,8 @@ pydantic==2.5.0
 python-multipart==0.0.6
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
+# passlib 1.7.4 is incompatible with bcrypt 4.x backend detection on newer Python; pin bcrypt 3.x.
+bcrypt==3.2.2
 python-dotenv==1.0.0
 alembic==1.11.1
 psycopg2-binary==2.9.9

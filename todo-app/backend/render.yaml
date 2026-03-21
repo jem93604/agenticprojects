@@ -14,7 +14,4 @@ services:
     envVars:
       - key: PYTHONUNBUFFERED
         value: "1"
-      - key: DATABASE_URL
-        # Set this in Render dashboard or provision a managed DB and attach
-        value: ""
     disk: 1024

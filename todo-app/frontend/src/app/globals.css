@@ -2,24 +2,24 @@
 @import "tailwindcss";
 
 :root {
-  /* base colors with better contrast */
-  --background: #f8fafc;
-  --surface: #ffffff;
-  --surface-alt: #f1f5f9;
-  --foreground: #0f172a;
-  --foreground-secondary: #475569;
-  --muted: #64748b;
-  --accent-1: #6366f1;
-  --accent-2: #06b6d4;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --error: #ef4444;
-  
+  /* much darker hard-wood light theme: deep walnut while keeping "light mode" layout */
+  --background: #b98f6b; /* deeper walnut base */
+  --surface: #efe6db; /* lighter surface for cards */
+  --surface-alt: #e7dccf;
+  --foreground: #0f0b08; /* very dark text for contrast */
+  --foreground-secondary: #2b231d;
+  --muted: #5b4c3f;
+  --accent-1: #402615; /* dark walnut accent */
+  --accent-2: #8a5a30; /* warm highlight */
+  --success: #2f7a3b;
+  --warning: #b7791f;
+  --error: #7a2424;
+
   /* neumorphism shadows (light) */
-  --shadow-light: rgba(255,255,255,0.8);
-  --shadow-dark: rgba(148,163,184,0.2);
-  --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  
+  --shadow-light: rgba(255,255,255,0.85);
+  --shadow-dark: rgba(30,20,12,0.16);
+  --shadow-soft: 0 8px 24px -8px rgba(30,20,12,0.18), 0 6px 12px -6px rgba(30,20,12,0.1);
+
   /* spacing and sizing */
   --radius: 12px;
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -52,9 +52,19 @@ html, body, #__next {
 }
 
 body {
-  background: radial-gradient(900px 420px at 8% 12%, rgba(99,102,241,0.08), transparent 10%), 
-              radial-gradient(600px 320px at 92% 88%, rgba(6,182,212,0.06), transparent 8%), 
-              var(--background);
+  /* intensified wood-grain + deeper walnut tones */
+  background-color: var(--background);
+  background-image:
+    /* heavier vertical grain */
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.06) 0 2px, rgba(255,255,255,0.02) 2px 8px),
+    /* varnish highlight on one side */
+    radial-gradient(1200px 520px at 8% 18%, rgba(255,255,255,0.04), transparent 14%),
+    /* warm darker vignette */
+    radial-gradient(900px 420px at 90% 86%, rgba(60,35,20,0.12), transparent 18%),
+    /* faint horizontal grain lines */
+    linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0));
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  background-blend-mode: multiply, overlay, multiply, normal;
   color: var(--foreground);
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -76,8 +86,8 @@ body {
   background: var(--surface);
   padding: 1.5rem;
   border-radius: var(--radius);
-  border: 1px solid rgba(148, 163, 184, 0.1);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(148, 163, 184, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
   transition: var(--transition);
   position: relative;
   overflow: hidden;
@@ -105,16 +115,16 @@ body {
 /* Glass morphism effect */
 .glass {
   backdrop-filter: blur(12px) saturate(150%);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 /* Enhanced neumorphic button */
 .neu-btn {
   background: var(--surface);
   border-radius: var(--radius);
-  border: 1px solid rgba(148, 163, 184, 0.1);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(148, 163, 184, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -129,7 +139,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
   transition: left 0.5s ease;
 }
 .neu-btn:hover::before {
@@ -137,11 +147,11 @@ body {
 }
 .neu-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 .neu-btn:active {
   transform: translateY(0);
-  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
 }
 .neu-btn svg {
   display: block;
@@ -155,14 +165,14 @@ body {
 .neu-input {
   background: var(--surface);
   border-radius: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.1);
-  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(148, 163, 184, 0.06);
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.04);
   transition: var(--transition);
 }
 .neu-input:focus {
   outline: none;
   border-color: var(--accent-1);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 0 3px rgba(90, 48, 28, 0.12);
 }
 
 /* Typography and color utilities */
