@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import DarkModeToggle from '@/components/DarkModeToggle'
+import Link from 'next/link'
 import { ToastProvider } from '@/components/ToastProvider'
 
 const geistSans = Geist({
@@ -37,7 +38,10 @@ export default function RootLayout({
                   <h1 className="text-2xl font-semibold">TaskFlow</h1>
                   <p className="text-sm subtitle">Kanban + Eisenhower planning</p>
                 </div>
-                <div>
+                <div className="flex items-center gap-3">
+                  <Link href="/profile" className="neu-btn px-3 py-2">
+                    Profile
+                  </Link>
                   <DarkModeToggle />
                 </div>
               </div>
