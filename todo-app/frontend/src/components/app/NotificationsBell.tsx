@@ -16,6 +16,42 @@ export function NotificationsBell() {
     void (async () => {
       try {
         const res = await api.notifications.list()
+        // If any invite notifications lack a project_name but have a project_id,
+        // fetch the user's projects once and fill in the missing names.
+        const needsLookup = res.some(
+          (n) => n.type === 'PROJECT_INVITE' && !n.payload?.project_name && n.payload?.project_id,
+        )
+
+        if (needsLookup) {
+          try {
+            const projects = await api.projects.list()
+            const byId = new Map<number, string>()
+            for (const p of projects || []) {
+              if (p && (p.id || p.project_id) && (p.name || p.project_name)) {
+                const id = Number(p.id ?? p.project_id)
+                const name = p.name ?? p.project_name
+                if (!Number.isNaN(id)) byId.set(id, name)
+              }
+            }
+
+            const filled = res.map((n) => {
+              if (n.type === 'PROJECT_INVITE' && !n.payload?.project_name && n.payload?.project_id) {
+                const id = Number(n.payload.project_id)
+                const name = byId.get(id)
+                if (name) {
+                  return { ...n, payload: { ...(n.payload || {}), project_name: name } }
+                }
+              }
+              return n
+            })
+
+            setItems(filled)
+            return
+          } catch (e) {
+            // silently continue if projects lookup fails; we'll fall back to project id display
+          }
+        }
+
         setItems(res)
       } catch {
         // ignore; typically not authenticated yet
