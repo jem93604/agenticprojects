@@ -7,6 +7,7 @@ from app.core.auth import get_current_user
 from app.models.database import get_db
 from app.models.project import Project, ProjectMember
 from app.models.user import User
+from app.models.comment import Notification
 from app.schemas.project import (
     CreateProjectRequest,
     InviteProjectMemberRequest,
@@ -91,7 +92,7 @@ async def list_members(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    _get_project_or_404(db, project_id)
+    project = _get_project_or_404(db, project_id)
     # Membership guard: only members can see members
     _get_member_or_404(db, project_id, current_user.id)
 
@@ -150,6 +151,26 @@ async def invite_member(
     db.add(new_member)
     db.commit()
     db.refresh(new_member)
+
+    # Create a notification for the invited user
+    try:
+        import json
+
+        notif_payload = json.dumps(
+            {
+                "project_id": project_id,
+                "project_name": project.name,
+                "invited_by_user_id": current_user.id,
+                "invited_by_handle": current_user.handle,
+                "role": new_member.role,
+            }
+        )
+        notif = Notification(user_id=invited_user.id, type="PROJECT_INVITE", payload_json=notif_payload)
+        db.add(notif)
+        db.commit()
+    except Exception:
+        # Do not fail invite if notification creation fails
+        db.rollback()
 
     return ProjectMemberResponse(
         user_id=new_member.user_id,

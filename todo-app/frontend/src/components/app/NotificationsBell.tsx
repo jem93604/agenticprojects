@@ -83,10 +83,20 @@ export function NotificationsBell() {
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
                       <div className="text-sm font-semibold truncate">
-                        {n.type === 'MENTION' ? 'Mention' : n.type}
+                        {n.type === 'MENTION' ? 'Mention' : n.type === 'PROJECT_INVITE' ? 'Project invite' : n.type}
                       </div>
                       <div className="text-xs muted truncate">
-                        {n.payload?.mentioned_handle ? `@${n.payload.mentioned_handle}` : '—'}
+                        {n.type === 'PROJECT_INVITE' ? (
+                          n.payload?.project_name
+                            ? `${n.payload.invited_by_handle || 'Someone'} invited you to ${n.payload.project_name}`
+                            : n.payload?.project_id
+                            ? `${n.payload.invited_by_handle || 'Someone'} invited you to project #${n.payload.project_id}`
+                            : `${n.payload.invited_by_handle || 'Someone'} invited you to a project`
+                        ) : n.payload?.mentioned_handle ? (
+                          `@${n.payload.mentioned_handle}`
+                        ) : (
+                          '—'
+                        )}
                       </div>
                     </div>
                     {!n.read_at && <span className="text-[10px] accent font-semibold">New</span>}
